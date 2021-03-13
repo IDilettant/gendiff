@@ -6,6 +6,7 @@ def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('first_file', help='')
     parser.add_argument('second_file', help='')
+    parser.add_argument('-f', '--format', help='set format of output')
     return parser
 
 
