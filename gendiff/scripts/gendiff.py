@@ -2,17 +2,17 @@
 import argparse
 
 
-def create_parser():
-    parser = argparse.ArgumentParser()
+def generate_diff():
+    diff = argparse.ArgumentParser()
     parser.add_argument('first_file', help='')
-    parser.add_argument('second_file', help='')
-    parser.add_argument('-f', '--format', help='set format of output')
-    return parser
+    diff.add_argument('second_file', help='')
+    diff.add_argument('-f', '--format', help='set format of output')
+    return diff
 
 
 def main():
-    parser = create_parser()
-    namespace = parser.parse_args()
+    diff = generate_diff()
+    namespace = diff.parse_args()
     print(namespace)
 
 
