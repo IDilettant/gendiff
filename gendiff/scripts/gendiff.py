@@ -96,7 +96,7 @@ def main():
     """Run module script."""
     parser = create_parser()
     args = parser.parse_args()
-    print(args.first_file, args.second_file)
+    print(generate_diff(args.first_file, args.second_file))
 
 
 if __name__ == '__main__':
