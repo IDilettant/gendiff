@@ -4,6 +4,7 @@
 Displays them on the screen in detail as a string.
 """
 import argparse
+import json
 
 
 def create_parser():
@@ -17,6 +18,19 @@ def create_parser():
     parser.add_argument('second_file', help='')
     parser.add_argument('-f', '--format', help='set format of output')
     return parser
+
+
+def decode(json_source):
+    """Decode text file containing a JSON document into a Python object.
+
+    Args:
+        json_source: text file
+
+    Returns:
+        The Python object
+    """
+    with open(json_source, 'r') as source:
+        return json.load(source)
 
 
 def main():
