@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Finds differences between two json files.
+"""Find differences between two json files.
 
 Displays them on the screen in detail as a string.
 """
@@ -31,6 +31,34 @@ def decode(json_source):
     """
     with open(json_source, 'r') as source:
         return json.load(source)
+
+
+def get_diffs(source1, source2):
+    """Find differences between two dictionaries.
+
+    Args:
+        source1 (dict): arg content
+        source2 (dict): arg content
+
+    Returns:
+        Diffs
+    """
+    keys = sorted(source1.keys() | source2.keys())
+    only_first = set(source1) - set(source2)
+    first_and_second = set(source1) & set(source2)
+    diffs = []
+    for key in keys:
+        if key in first_and_second:
+            if source1[key] == source2[key]:
+                diffs.append('    {0}: {1}'.format(key, source1[key]))
+            else:
+                diffs.append('  - {0}: {1}'.format(key, source1[key]))
+                diffs.append('  + {0}: {1}'.format(key, source2[key]))
+        elif key in only_first:
+            diffs.append('  - {0}: {1}'.format(key, source1[key]))
+        else:
+            diffs.append('  + {0}: {1}'.format(key, source2[key]))
+    return diffs
 
 
 def main():
