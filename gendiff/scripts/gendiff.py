@@ -61,6 +61,19 @@ def get_diffs(source1, source2):
     return diffs
 
 
+def render_as_string(diffs):
+    """Render diffs as string representation in dictionary like format.
+
+    Args:
+        diffs (list): strings with differences between two dictionaries
+
+    Returns:
+        Diffs in dictionary like format
+    """
+    diffs = '\n'.join(diffs)
+    return '{0}\n{1}\n{2}'.format('{', diffs, '}')
+
+
 def main():
     """Run module script."""
     parser = create_parser()
