@@ -1,5 +1,8 @@
 #!/usr/bin/env python
+"""Finds differences between two json files.
 
+Displays them on the screen in detail as a string.
+"""
 import argparse
 
 
