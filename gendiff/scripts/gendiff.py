@@ -20,17 +20,17 @@ def create_parser():
     return parser
 
 
-def decode(json_source):
+def decode(source):
     """Decode text file containing a JSON document into a Python object.
 
     Args:
-        json_source: text file
+        source: JSON file
 
     Returns:
-        The Python object
+        Dictionary
     """
-    with open(json_source, 'r') as source:
-        return json.load(source)
+    with open(source, 'r') as json_content:
+        return json.load(json_content)
 
 
 def get_diffs(source1, source2):
@@ -72,6 +72,24 @@ def render_as_string(diffs):
     """
     diffs = '\n'.join(diffs)
     return '{0}\n{1}\n{2}'.format('{', diffs, '}')
+
+
+def generate_diff(source1, source2):
+    """Find differences between two JSON files.
+
+    Perform result of search as string in dictionary like format
+
+    Args:
+        source1: JSON file
+        source2: JSON file
+
+    Returns:
+        Diffs in dictionary like format
+    """
+    source1 = decode(source1)
+    source2 = decode(source2)
+    diffs = get_diffs(source1, source2)
+    return render_as_string(diffs)
 
 
 def main():
