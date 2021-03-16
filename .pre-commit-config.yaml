@@ -2,31 +2,36 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v3.4.0
     hooks:
     -   id: trailing-whitespace
+    -   id: check-docstring-first
+    -   id: check-json
     -   id: check-yaml
-    # проверяет наличие переноса строки в конце всех текстовых файлов
+    -   id: debug-statements
     -   id: end-of-file-fixer
-    # предупреждает о добавлении больших файлов в Git
     -   id: check-added-large-files
-    # предупреждает о сохранении файлов с UTF-8 BOM
     -   id: check-byte-order-marker
-    # предотвращает сохранение приватных ключей
     -   id: detect-private-key
-    # проверяет, что файлы, которые мы собираемся сохранять, как минимум валидный Python
     -   id: check-ast
--   repo: 'https://gitlab.com/pycqa/flake8'
-    rev:    3.8.4
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.5.5
+    hooks:
+    -   id: autopep8
+-   repo: local
     hooks:
     -   id: flake8
--   repo: 'https://github.com/psf/black'
-    rev: 19.10b0
+        name: flake8
+        description: wemake-python-styleguide enforcement
+        entry: flake8
+        args: ["--config=setup.cfg"]
+        language: python
+        types: [python]
+-   repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.1.0
     hooks:
-    -   id: black
--   repo: 'https://gitlab.com/pycqa/flake8'
-    rev: 3.8.4
+    -   id: add-trailing-comma
+-   repo: https://github.com/pycqa/isort
+    rev: 5.7.0
     hooks:
-    -   id: flake8
-        additional_dependencies:
-          - flake8-bugbear
+      - id: isort
