@@ -14,9 +14,9 @@ def create_parser():
         Returns the parser instance
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("first_file", help="")
-    parser.add_argument("second_file", help="")
-    parser.add_argument("-f", "--format", help="set format of output")
+    parser.add_argument('first_file', help='')
+    parser.add_argument('second_file', help='')
+    parser.add_argument('-f', '--format', help='set format of output')
     return parser
 
 
@@ -29,7 +29,7 @@ def decode(source):
     Returns:
         Dictionary
     """
-    with open(source, "r") as json_content:
+    with open(source, 'r') as json_content:
         return json.load(json_content)
 
 
@@ -50,14 +50,14 @@ def get_diffs(source1, source2):
     for key in keys:
         if key in first_and_second:
             if source1[key] == source2[key]:
-                diffs.append("    {0}: {1}".format(key, source1[key]))
+                diffs.append('    {0}: {1}'.format(key, source1[key]))
             else:
-                diffs.append("  - {0}: {1}".format(key, source1[key]))
-                diffs.append("  + {0}: {1}".format(key, source2[key]))
+                diffs.append('  - {0}: {1}'.format(key, source1[key]))
+                diffs.append('  + {0}: {1}'.format(key, source2[key]))
         elif key in only_first:
-            diffs.append("  - {0}: {1}".format(key, source1[key]))
+            diffs.append('  - {0}: {1}'.format(key, source1[key]))
         else:
-            diffs.append("  + {0}: {1}".format(key, source2[key]))
+            diffs.append('  + {0}: {1}'.format(key, source2[key]))
     return diffs
 
 
@@ -70,8 +70,8 @@ def render_as_string(diffs):
     Returns:
         Diffs in dictionary like format
     """
-    diffs = "\n".join(diffs)
-    return "{0}\n{1}\n{2}".format("{", diffs, "}")
+    diffs = '\n'.join(diffs)
+    return '{0}\n{1}\n{2}'.format('{', diffs, '}')
 
 
 def generate_diff(source1, source2):
@@ -99,5 +99,5 @@ def main():
     print(generate_diff(args.first_file, args.second_file))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
