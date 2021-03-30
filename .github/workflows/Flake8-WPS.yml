@@ -21,6 +21,6 @@ jobs:
         run: |
           python3 -m pip install poetry
           make install
-      - name: Run Flake8-WMPS
+      - name: Run Flake8-WPS
         run: |
           make lint
