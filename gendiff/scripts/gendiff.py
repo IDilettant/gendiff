@@ -3,28 +3,29 @@
 
 Displays them on the screen in detail as a string.
 """
-import argparse
 import json
+from argparse import ArgumentParser
+from typing import Dict, List
 
 
-def create_parser():
+def create_parser() -> ArgumentParser:
     """Create a parser instance able to parse args of script.
 
     return:
         Returns the parser instance
     """
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
     parser.add_argument('first_file', help='')
     parser.add_argument('second_file', help='')
     parser.add_argument('-f', '--format', help='set format of output')
     return parser
 
 
-def decode(file_path):
+def decode(file_path: str) -> Dict:
     """Decode text file containing a JSON document into a Python object.
 
     Args:
-        file_path: JSON-file
+        file_path: path to JSON-file
 
     Returns:
         Dictionary
@@ -33,12 +34,12 @@ def decode(file_path):
         return json.load(json_content)
 
 
-def get_diffs(source1, source2):
+def get_diffs(source1: Dict, source2: Dict) -> List:
     """Find differences between two dictionaries.
 
     Args:
-        source1 (dict): arg content
-        source2 (dict): arg content
+        source1: arg content
+        source2: arg content
 
     Returns:
         Diffs
@@ -61,11 +62,11 @@ def get_diffs(source1, source2):
     return diffs
 
 
-def render_as_string(diffs):
+def render_as_string(diffs: List) -> str:
     """Render diffs as string representation in dictionary like format.
 
     Args:
-        diffs (list): strings with differences between two dictionaries
+        diffs: strings with differences between two dictionaries
 
     Returns:
         Diffs in dictionary like format
@@ -74,14 +75,14 @@ def render_as_string(diffs):
     return '{0}\n{1}\n{2}'.format('{', diffs, '}')
 
 
-def generate_diff(source1, source2):
+def generate_diff(source1: str, source2: str) -> str:
     """Find differences between two JSON files.
 
     Perform result of search as string in dictionary like format
 
     Args:
-        source1: JSON-file
-        source2: JSON-file
+        source1: path to JSON-file
+        source2: path to JSON-file
 
     Returns:
         Diffs in dictionary like format
