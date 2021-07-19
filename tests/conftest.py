@@ -1,50 +1,108 @@
 """Fixtures module."""
 import json
+from typing import Dict
 
 import pytest
+import yaml
 
 
 @pytest.fixture
-def first_file(tmpdir):
-    """First example json-file.
+def first_file_content() -> Dict:
+    """File content.
 
-    Args:
-        tmpdir: temporary directory fixture
-
-    Yields:
-        temporary file
+    Returns:
+        file content
     """
-    json_data = {
+    return {
         'host': 'hexlet.io',
         'timeout': 50,
         'proxy': '123.234.53.22',
         'follow': False,
     }
+
+
+@pytest.fixture
+def second_file_content() -> Dict:
+    """File content.
+
+    Returns:
+        file content
+    """
+    return {
+        'timeout': 20,
+        'verbose': True,
+        'host': 'hexlet.io',
+    }
+
+
+@pytest.fixture
+def first_file_json(tmpdir, first_file_content: Dict):  # noqa: WPS442
+    """First example json-file.
+
+    Args:
+        tmpdir: temporary directory fixture
+        first_file_content: file content
+
+    Yields:
+        temporary file
+    """
     temp_file = tmpdir.join('file1.json')
     with temp_file.open(mode='w') as temp:
-        json.dump(json_data, temp)
+        json.dump(first_file_content, temp)
     yield temp_file
     temp_file.remove()
 
 
 @pytest.fixture
-def second_file(tmpdir):
+def second_file_json(tmpdir, second_file_content: Dict):  # noqa: WPS442
     """Second example json-file.
 
     Args:
         tmpdir: temporary directory fixture
+        second_file_content: file content
 
     Yields:
         temporary file
     """
-    json_data = {
-        'timeout': 20,
-        'verbose': True,
-        'host': 'hexlet.io',
-    }
     temp_file = tmpdir.join('file2.json')
     with temp_file.open(mode='w') as temp:
-        json.dump(json_data, temp)
+        json.dump(second_file_content, temp)
+    yield temp_file
+    temp_file.remove()
+
+
+@pytest.fixture
+def first_file_yml(tmpdir, first_file_content: Dict):  # noqa: WPS442
+    """First example yaml-file.
+
+    Args:
+        tmpdir: temporary directory fixture
+        first_file_content: file content
+
+    Yields:
+        temporary file
+    """
+    temp_file = tmpdir.join('file1.yaml')
+    with temp_file.open(mode='w') as temp:
+        yaml.dump(first_file_content, temp)
+    yield temp_file
+    temp_file.remove()
+
+
+@pytest.fixture
+def second_file_yml(tmpdir, second_file_content: Dict):  # noqa: WPS442
+    """Second example yaml-file.
+
+    Args:
+        tmpdir: temporary directory fixture
+        second_file_content: file content
+
+    Yields:
+        temporary file
+    """
+    temp_file = tmpdir.join('file2.yml')  # check with alternate extension name
+    with temp_file.open(mode='w') as temp:
+        yaml.dump(second_file_content, temp)
     yield temp_file
     temp_file.remove()
 
