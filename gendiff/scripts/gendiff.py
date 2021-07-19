@@ -4,21 +4,11 @@
 Displays them on the screen in detail as a string.
 """
 import json
-from argparse import ArgumentParser
+from os import path
 from typing import Dict, List
 
-
-def create_parser() -> ArgumentParser:
-    """Create a parser instance able to parse args of script.
-
-    return:
-        Returns the parser instance
-    """
-    parser = ArgumentParser()
-    parser.add_argument('first_file', help='')
-    parser.add_argument('second_file', help='')
-    parser.add_argument('-f', '--format', help='set format of output')
-    return parser
+import yaml
+from gendiff.scripts.shell_parser import create_parser
 
 
 def decode(file_path: str) -> Dict:
@@ -30,8 +20,14 @@ def decode(file_path: str) -> Dict:
     Returns:
         Dictionary
     """
-    with open(file_path, 'r') as json_content:
-        return json.load(json_content)
+    _, extension = path.splitext(file_path)
+    json_ext = '.json'
+    yaml_ext = ('.yaml', '.yml')
+    with open(file_path, 'r') as file_content:
+        if extension == json_ext:
+            return json.load(file_content)
+        elif extension in yaml_ext:
+            return yaml.safe_load(file_content)
 
 
 def get_diffs(source1: Dict, source2: Dict) -> List:
