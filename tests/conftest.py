@@ -121,8 +121,7 @@ def flat_diff_result() -> str:
   - timeout: 50
   + timeout: 20
   + verbose: True
-}
-"""  # noqa: WPS462
+}"""  # noqa: WPS462
 
 
 @pytest.fixture
@@ -213,7 +212,7 @@ def first_file_nested_yaml(tmpdir, first_file_content_nested: Dict):  # noqa: WP
     """
     temp_file = tmpdir.join('file1.yaml')
     with temp_file.open(mode='w') as temp:
-        yaml.dump(first_file_content_flat, temp)
+        yaml.dump(first_file_content_nested, temp)
     yield temp_file
     temp_file.remove()
 
@@ -231,7 +230,7 @@ def second_file_nested_yaml(tmpdir, second_file_content_nested: Dict):  # noqa: 
     """
     temp_file = tmpdir.join('file2.yaml')
     with temp_file.open(mode='w') as temp:
-        yaml.dump(first_file_content_flat, temp)
+        yaml.dump(second_file_content_nested, temp)
     yield temp_file
     temp_file.remove()
 
@@ -249,7 +248,7 @@ def first_file_nested_json(tmpdir, first_file_content_nested: Dict):  # noqa: WP
     """
     temp_file = tmpdir.join('file1.yaml')
     with temp_file.open(mode='w') as temp:
-        json.dump(first_file_content_flat, temp)
+        json.dump(first_file_content_nested, temp)
     yield temp_file
     temp_file.remove()
 
@@ -267,7 +266,7 @@ def second_file_nested_json(tmpdir, second_file_content_nested: Dict):  # noqa: 
     """
     temp_file = tmpdir.join('file2.yaml')
     with temp_file.open(mode='w') as temp:
-        json.dump(first_file_content_flat, temp)
+        json.dump(second_file_content_nested, temp)
     yield temp_file
     temp_file.remove()
 
@@ -322,5 +321,4 @@ def nested_diff_result() -> str:
         }
         fee: 100500
     }
-}
-"""  # noqa: WPS462 W291
+}"""  # noqa: WPS462 W291
