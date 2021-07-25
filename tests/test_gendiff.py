@@ -46,6 +46,17 @@ def test_generate_diff_yaml_nested(
         second_file_nested_yaml,
     ) == nested_diff_result
 
+    
+def test_generate_diff_json_yaml_nested(
+    first_file_nested_json,
+    second_file_nested_yaml,
+    nested_diff_result,
+):
+    assert generate_diff(
+        first_file_nested_json,
+        second_file_nested_yaml,
+    ) == nested_diff_result
+
 
 def test_create_parser(
     first_file_flat_json,
