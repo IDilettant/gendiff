@@ -115,12 +115,12 @@ def flat_diff_result() -> str:
         two json-files diff result
     """
     return """{
-  - follow: False
+  - follow: false
     host: hexlet.io
   - proxy: 123.234.53.22
   - timeout: 50
   + timeout: 20
-  + verbose: True
+  + verbose: true
 }"""  # noqa: WPS462
 
 
@@ -280,10 +280,10 @@ def nested_diff_result() -> str:
     """
     return """{
     common: {
-      + follow: False
+      + follow: false
         setting1: Value 1
       - setting2: 200
-      - setting3: True
+      - setting3: true
       + setting3: null
       + setting4: blah blah
       + setting5: {
