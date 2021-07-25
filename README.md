@@ -6,3 +6,4 @@
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
 [![asciicast](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa.svg)](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa)
+[![asciicast](https://asciinema.org/a/1J2DoAfr6nR1iwtf32DiCXm92.svg)](https://asciinema.org/a/1J2DoAfr6nR1iwtf32DiCXm92)
