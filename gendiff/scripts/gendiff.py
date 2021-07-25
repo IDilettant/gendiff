@@ -4,21 +4,51 @@
 Displays them on the screen in detail as a string.
 """
 import json
+from collections import defaultdict
 from os import path
-from typing import Dict, List
+from typing import Any, Dict
 
 import yaml
 from gendiff.scripts.shell_parser import create_parser
+from gendiff.scripts.stylish import (
+    CHILD_DIFF_REPR,
+    HAS_CHILD_DIFF,
+    IS_ADDED,
+    IS_CHANGED,
+    IS_DELETED,
+    IS_UNCHANGED,
+    is_child,
+    stylish,
+)
 
 
-def decode(file_path: str) -> Dict:
-    """Decode text file containing a JSON document into a Python object.
+def generate_diff(source1: str, source2: str, formatter=stylish) -> str:
+    """Find differences between two JSON files.
+
+    Perform result of search as string in dictionary like format
 
     Args:
-        file_path: path to JSON-file
+        source1: path to JSON-file
+        source2: path to JSON-file
+        formatter: function for format to dictionary-like string
 
     Returns:
-        Dictionary
+        Diffs in dictionary like format
+    """
+    source1 = convert_file_content(source1)
+    source2 = convert_file_content(source2)
+    diffs_repr = get_diffs_repr(source1, source2)
+    return formatter(diffs_repr, source1, source2)
+
+
+def convert_file_content(file_path: str) -> Dict:
+    """Convert content from JSON or YAML file.
+
+    Args:
+        file_path: path to file
+
+    Returns:
+        dictionary
     """
     _, extension = path.splitext(file_path)
     json_ext = '.json'
@@ -30,70 +60,65 @@ def decode(file_path: str) -> Dict:
             return yaml.safe_load(file_content)
 
 
-def get_diffs(source1: Dict, source2: Dict) -> List:
-    """Find differences between two dictionaries.
+def get_diffs_repr(source1: Dict, source2: Dict) -> Dict:  # noqa: WPS231
+    """Get internal representation of differences between two dictionaries.
 
     Args:
-        source1: arg content
-        source2: arg content
+        source1: file content
+        source2: file content
 
     Returns:
-        Diffs
+        registered result of compare between two files
     """
-    keys = sorted(source1.keys() | source2.keys())
     only_first = set(source1) - set(source2)
-    first_and_second = set(source1) & set(source2)
-    diffs = []
-    for key in keys:
-        if key in first_and_second:
-            if source1[key] == source2[key]:
-                diffs.append('    {0}: {1}'.format(key, source1[key]))
-            else:
-                diffs.append('  - {0}: {1}'.format(key, source1[key]))
-                diffs.append('  + {0}: {1}'.format(key, source2[key]))
+    only_second = set(source2) - set(source1)
+    both_sources = set(source1) & set(source2)
+    inter_repr = defaultdict(dict)
+    for key in sorted(source1.keys() | source2.keys()):
+        if key in both_sources:
+            inter_repr[key][IS_CHANGED] = source1[key] != source2[key]
+            inter_repr[key][IS_UNCHANGED] = source1[key] == source2[key]
         elif key in only_first:
-            diffs.append('  - {0}: {1}'.format(key, source1[key]))
-        else:
-            diffs.append('  + {0}: {1}'.format(key, source2[key]))
-    return diffs
+            inter_repr[key][IS_DELETED] = True
+        elif key in only_second:
+            inter_repr[key][IS_ADDED] = True
+        if is_child(source1.get(key)) and is_child(source2.get(key)):
+            _register_children(source1, source2, inter_repr, key)
+    return inter_repr
 
 
-def render_as_string(diffs: List) -> str:
-    """Render diffs as string representation in dictionary like format.
-
-    Args:
-        diffs: strings with differences between two dictionaries
-
-    Returns:
-        Diffs in dictionary like format
-    """
-    diffs = '\n'.join(diffs)
-    return '{0}\n{1}\n{2}'.format('{', diffs, '}')
-
-
-def generate_diff(source1: str, source2: str) -> str:
-    """Find differences between two JSON files.
-
-    Perform result of search as string in dictionary like format
+def _register_children(
+    source1: Dict,
+    source2: Dict,
+    inter_repr: Dict,
+    key: Any,
+):
+    """Compare sources and register diffs.
 
     Args:
-        source1: path to JSON-file
-        source2: path to JSON-file
-
-    Returns:
-        Diffs in dictionary like format
+        source1: file content
+        source2: file content
+        inter_repr: registered result of compare between two files
+        key: the key contained in both dictionaries
     """
-    source1 = decode(source1)
-    source2 = decode(source2)
-    diffs = get_diffs(source1, source2)
-    return render_as_string(diffs)
+    state = inter_repr[key]
+    state[IS_CHANGED] = False
+    state[IS_UNCHANGED] = True
+    state[HAS_CHILD_DIFF] = True
+    state[CHILD_DIFF_REPR] = get_diffs_repr(source1[key], source2[key])
 
 
 def main():
     """Run module script."""
     parser = create_parser()
     args = parser.parse_args()
-    print(generate_diff(args.first_file, args.second_file))
+    print(
+        generate_diff(
+            args.first_file,
+            args.second_file,
+            formatter=args.format,
+        ),
+    )
 
 
 if __name__ == '__main__':
