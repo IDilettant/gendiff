@@ -9,6 +9,7 @@ from os import path
 from typing import Any, Dict
 
 import yaml
+from gendiff.scripts.plain import plain
 from gendiff.scripts.shell_parser import create_parser
 from gendiff.scripts.stylish import (
     CHILDREN_DIFF_REPR,
@@ -112,11 +113,12 @@ def main():
     """Run module script."""
     parser = create_parser()
     args = parser.parse_args()
+    formatter = plain if args.format == 'plain' else stylish
     print(
         generate_diff(
             args.first_file,
             args.second_file,
-            formatter=args.format,
+            formatter=formatter,
         ),
     )
 
