@@ -1,5 +1,6 @@
 """Test for gendiff module."""
 from gendiff.scripts.gendiff import generate_diff
+from gendiff.scripts.plain import plain
 from gendiff.scripts.shell_parser import create_parser
 
 
@@ -73,3 +74,15 @@ def test_create_parser(
         args.second_file,
         formatter=args.format,
     ) == flat_diff_result
+    
+
+def test_generate_diff_plain_repr(
+    first_file_nested_json,
+    second_file_nested_yaml,
+    plain_diff_result,
+):
+    assert generate_diff(
+        first_file_nested_json,
+        second_file_nested_yaml,
+        formatter=plain,
+    ) == plain_diff_result
