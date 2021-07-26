@@ -112,7 +112,7 @@ def flat_diff_result() -> str:
     """Two json-files with flat structure diff result.
 
     Returns:
-        two json-files diff result
+        dictionary-like two json-files diff result
     """
     return """{
   - follow: false
@@ -201,7 +201,7 @@ def second_file_content_nested() -> Dict:
 
 @pytest.fixture
 def first_file_nested_yaml(tmpdir, first_file_content_nested: Dict):  # noqa: WPS442 E501
-    """First example yaml-file with flat structure.
+    """First example yaml-file with nested structure.
 
     Args:
         tmpdir: temporary directory fixture
@@ -219,7 +219,7 @@ def first_file_nested_yaml(tmpdir, first_file_content_nested: Dict):  # noqa: WP
 
 @pytest.fixture
 def second_file_nested_yaml(tmpdir, second_file_content_nested: Dict):  # noqa: WPS442 E501
-    """First example yaml-file with flat structure.
+    """First example yaml-file with nested structure.
 
     Args:
         tmpdir: temporary directory fixture
@@ -237,7 +237,7 @@ def second_file_nested_yaml(tmpdir, second_file_content_nested: Dict):  # noqa: 
 
 @pytest.fixture
 def first_file_nested_json(tmpdir, first_file_content_nested: Dict):  # noqa: WPS442 E501
-    """First example yaml-file with flat structure.
+    """First example yaml-file with nested structure.
 
     Args:
         tmpdir: temporary directory fixture
@@ -255,7 +255,7 @@ def first_file_nested_json(tmpdir, first_file_content_nested: Dict):  # noqa: WP
 
 @pytest.fixture
 def second_file_nested_json(tmpdir, second_file_content_nested: Dict):  # noqa: WPS442 E501
-    """First example yaml-file with flat structure.
+    """First example yaml-file with nested structure.
 
     Args:
         tmpdir: temporary directory fixture
@@ -273,10 +273,10 @@ def second_file_nested_json(tmpdir, second_file_content_nested: Dict):  # noqa: 
 
 @pytest.fixture
 def nested_diff_result() -> str:
-    """Two json-files with flat structure diff result.
+    """Two json-files with nested structure diff result.
 
     Returns:
-        two json-files diff result
+        dictionary-like two json-files diff result
     """
     return """{
     common: {
@@ -322,3 +322,23 @@ def nested_diff_result() -> str:
         fee: 100500
     }
 }"""  # noqa: WPS462 W291
+
+
+@pytest.fixture
+def plain_diff_result() -> str:
+    """Two json-files with nested structure diff result.
+
+    Returns:
+        plain two json-files diff result
+    """
+    return """Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]"""
