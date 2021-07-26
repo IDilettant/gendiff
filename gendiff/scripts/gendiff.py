@@ -11,8 +11,8 @@ from typing import Any, Dict
 import yaml
 from gendiff.scripts.shell_parser import create_parser
 from gendiff.scripts.stylish import (
-    CHILD_DIFF_REPR,
-    HAS_CHILD_DIFF,
+    CHILDREN_DIFF_REPR,
+    HAS_CHILD_UPDATES,
     IS_ADDED,
     IS_CHANGED,
     IS_DELETED,
@@ -104,8 +104,8 @@ def _register_children(
     state = inter_repr[key]
     state[IS_CHANGED] = False
     state[IS_UNCHANGED] = True
-    state[HAS_CHILD_DIFF] = True
-    state[CHILD_DIFF_REPR] = get_diffs_repr(source1[key], source2[key])
+    state[HAS_CHILD_UPDATES] = True
+    state[CHILDREN_DIFF_REPR] = get_diffs_repr(source1[key], source2[key])
 
 
 def main():
