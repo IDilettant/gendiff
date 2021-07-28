@@ -12,7 +12,7 @@ def main():
         generate_diff(
             args.first_file,
             args.second_file,
-            formatter=FORMATTERS.get(args.format),
+            formatter=args.format,
         ),
     )
 

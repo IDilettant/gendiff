@@ -73,7 +73,7 @@ def test_create_parser(
     assert generate_diff(
         args.first_file,
         args.second_file,
-        formatter=FORMATTERS.get(args.format),
+        formatter=args.format,
     ) == flat_diff_result
 
 
@@ -85,7 +85,7 @@ def test_plain_repr(
     assert generate_diff(
         first_file_nested_json,
         second_file_nested_yaml,
-        formatter=plain,
+        formatter='plain',
     ) == plain_diff_result
 
 
@@ -97,5 +97,5 @@ def test_format_to_json(
     assert generate_diff(
         first_file_nested_json,
         second_file_nested_yaml,
-        formatter=format_to_json,
+        formatter='json',
     ) == json_diff_result
