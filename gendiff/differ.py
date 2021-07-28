@@ -5,7 +5,7 @@ from os import path
 from typing import Any, Dict
 
 import yaml
-from gendiff.formatters.stylish import is_child, stylish
+from gendiff.formatters.stylish import is_child
 from gendiff.key_states_constants import (
     ADDED,
     CHANGED_FROM,
