@@ -30,8 +30,8 @@ def plain(  # noqa: WPS210 WPS231
     for key, node in diffs_tree.items():
         node_value = _render_as_string(node.get('value'))
         node_state = node.get('state')
-        sub_path_to_value = '{root}.{key}'.format(
-            root=path_to_value,
+        sub_path_to_value = '{path}.{key}'.format(
+            path=path_to_value,
             key=str(key),
         ) if path_to_value else str(key)
         if node_state == SUBTREE:
@@ -43,20 +43,22 @@ def plain(  # noqa: WPS210 WPS231
             )
         elif node_state == UPDATED:
             diffs.append(
-                "Property '{0}' was updated. From {1} to {2}".format(
-                    sub_path_to_value,
-                    _render_as_string(node['value'][CHANGED_FROM]),
-                    _render_as_string(node['value'][CHANGED_TO]),
+                "Property '{key}' was updated. From {old} to {new}".format(
+                    key=sub_path_to_value,
+                    old=_render_as_string(node['value'][CHANGED_FROM]),
+                    new=_render_as_string(node['value'][CHANGED_TO]),
                 ),
             )
 
         elif node_state == REMOVED:
-            diffs.append("Property '{0}' was removed".format(sub_path_to_value))
+            diffs.append(
+                "Property '{key}' was removed".format(key=sub_path_to_value),
+            )
         elif node_state == ADDED:
             diffs.append(
-                "Property '{0}' was added with value: {1}".format(
-                    sub_path_to_value,
-                    node_value,
+                "Property '{key}' was added with value: {value}".format(
+                    key=sub_path_to_value,
+                    value=node_value,
                 ),
             )
     return '\n'.join(diffs)
@@ -80,4 +82,6 @@ def _render_as_string(arg: Any) -> str:
         return '[complex value]'
     elif isinstance(arg, bool) or arg is None:
         return json.dumps(arg)
+    elif isinstance(arg, (int, float)):
+        return str(arg)
     return "'{0}'".format(str(arg))
