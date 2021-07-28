@@ -5,6 +5,14 @@
 ![Actions Status](https://github.com/IDilettant/python-project-lvl2/workflows/Flake8-WPS/badge.svg)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
+Demo for plain structure files:
 [![asciicast](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa.svg)](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa)
+
+Demo for nested structure files:
 [![asciicast](https://asciinema.org/a/1J2DoAfr6nR1iwtf32DiCXm92.svg)](https://asciinema.org/a/1J2DoAfr6nR1iwtf32DiCXm92)
+
+Demo for plain-style formatter:
 [![asciicast](https://asciinema.org/a/EBGsvQsuRz6xGrh86ttu0AnOc.svg)](https://asciinema.org/a/EBGsvQsuRz6xGrh86ttu0AnOc)
+
+Demo for json-style formatter:
+[![asciicast](https://asciinema.org/a/jXEOqNH5UBtEMt2niAFQAzguF.svg)](https://asciinema.org/a/jXEOqNH5UBtEMt2niAFQAzguF)
