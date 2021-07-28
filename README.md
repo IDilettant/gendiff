@@ -5,6 +5,13 @@
 ![Actions Status](https://github.com/IDilettant/python-project-lvl2/workflows/Flake8-WPS/badge.svg)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
+
+The program is a cli-utility that allows to compare between JSON and/or YAML files.
+And display the resulting difference in various presentation options
+
+This is the second project implemented for educational purposes in the learning process on [the Hexlet](https://ru.hexlet.io) platform
+
+
 Demo for plain structure files:
 [![asciicast](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa.svg)](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa)
 
