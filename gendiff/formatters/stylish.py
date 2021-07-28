@@ -2,27 +2,27 @@
 import json
 from typing import Any, Dict, List, Optional
 
-IS_CHANGED = 'updated'
-IS_UNCHANGED = 'unchanged'
-IS_DELETED = 'removed'
-IS_ADDED = 'added'
-HAS_CHILD_UPDATES = 'has child updates'
-CHILDREN_DIFF_REPR = 'children diff repr'
+from gendiff.key_states_constants import (
+    ADDED,
+    CHANGED_FROM,
+    CHANGED_TO,
+    REMOVED,
+    SUBTREE,
+    UNCHANGED,
+    UPDATED,
+)
+
 INDENT = ' ' * 4
 
 
 def stylish(  # noqa: WPS210 WPS231 C901
-    inter_repr: Dict,
-    source1: Dict,
-    source2: Dict,
+    diffs_tree: Dict,
     depth: int = 0,
 ) -> str:
     """Format internal representation of diffs to dictionary-like string.
 
     Args:
-        inter_repr: registered result of compare between two files
-        source1: file content
-        source2: file content
+        diffs_tree: registered result of compare between two files
         depth: level of nested
 
     Returns:
@@ -30,71 +30,69 @@ def stylish(  # noqa: WPS210 WPS231 C901
     """
     diffs = []
     indent = INDENT * depth
-    for key, state in inter_repr.items():
-        source_value = _render_as_string(
-            source1.get(key),
-            depth + 1,
-        )
-        new_value = _render_as_string(
-            source2.get(key),
-            depth + 1,
-        )
-        if state.get(HAS_CHILD_UPDATES):  # noqa: WPS223
+    for key, node in diffs_tree.items():
+        node_value = _render_to_string(node.get('value'), depth + 1)
+        node_state = node.get('state')
+        if node_state == SUBTREE:  # noqa: WPS223
             diffs.append(
-                '{0}    {1}: {2}'.format(
-                    indent,
-                    key,
-                    stylish(
-                        state[CHILDREN_DIFF_REPR],
-                        source1[key],
-                        source2[key],
+                '{indent}    {key}: {value}'.format(
+                    indent=indent,
+                    key=key,
+                    value=stylish(
+                        node['children_diff'],
                         depth + 1,
                     ),
                 ),
             )
-        elif state.get(IS_CHANGED):
+        elif node_state == UPDATED:
             diffs.append(
-                '{0}  - {1}:{2}'.format(
-                    indent,
-                    key,
-                    source_value,
+                '{indent}  - {key}:{value}'.format(
+                    indent=indent,
+                    key=key,
+                    value=_render_to_string(
+                        node['value'][CHANGED_FROM],
+                        depth + 1,
+                    ),
                 ),
             )
             diffs.append(
-                '{0}  + {1}:{2}'.format(
-                    indent,
-                    key,
-                    new_value,
+                '{indent}  + {key}:{value}'.format(
+                    indent=indent,
+                    key=key,
+                    value=_render_to_string(
+                        node['value'][CHANGED_TO],
+                        depth + 1,
+                    ),
                 ),
             )
-        elif state.get(IS_UNCHANGED):
+        elif node_state == UNCHANGED:
             diffs.append(
-                '{0}    {1}:{2}'.format(
-                    indent,
-                    key,
-                    source_value,
+                '{indent}    {key}:{value}'.format(
+                    indent=indent,
+                    key=key,
+                    value=node_value,
                 ),
             )
-        elif state.get(IS_DELETED):
+        elif node_state == REMOVED:
             diffs.append(
-                '{0}  - {1}:{2}'.format(
-                    indent,
-                    key,
-                    source_value,
+                '{indent}  - {key}:{value}'.format(
+                    indent=indent,
+                    key=key,
+                    value=node_value,
                 ),
             )
-        elif state.get(IS_ADDED):
+        elif node_state == ADDED:
             diffs.append(
-                '{0}  + {1}:{2}'.format(
-                    indent,
-                    key,
-                    new_value,
+                '{indent}  + {key}:{value}'.format(
+                    indent=indent,
+                    key=key,
+                    value=node_value,
                 ),
             )
     return _format_to_dict_like(diffs, indent)
 
 
-def is_child(key_value: Any):
+def is_child(key_value: Any) -> bool:
     """Find out if an element is a child in a dictionary tree structure.
 
     Args:
@@ -106,7 +104,7 @@ def is_child(key_value: Any):
     return isinstance(key_value, dict)
 
 
-def _render_as_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
+def _render_to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     """Render as string representation.
 
     If argument is dictionary or list render in dictionary-like format.
@@ -121,12 +119,12 @@ def _render_as_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     indent = INDENT * depth
     if is_child(arg):
         lines = []
-        for key, dict_value in arg.items():
-            dict_value = _render_as_string(dict_value, depth + 1)
-            line = '{0}    {1}:{2}'.format(
-                indent,
-                key,
-                dict_value,
+        for key, node_value in arg.items():
+            node_value = _render_to_string(node_value, depth + 1)
+            line = '{indent}    {key}:{value}'.format(
+                indent=indent,
+                key=key,
+                value=node_value,
             )
             lines.append(line)
         return ' {0}'.format(_format_to_dict_like(lines, indent))
@@ -137,6 +135,6 @@ def _render_as_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     return ' {0}'.format(str(arg))
 
 
-def _format_to_dict_like(lines: List, indent: Optional[str] = None):
+def _format_to_dict_like(lines: List, indent: Optional[str] = None) -> str:
     lines = '\n'.join(lines)
     return '{0}\n{1}\n{2}{3}'.format('{', lines, indent, '}')

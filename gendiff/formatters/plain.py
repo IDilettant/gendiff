@@ -2,65 +2,63 @@
 import json
 from typing import Any, Dict
 
-from gendiff.scripts.stylish import (
-    CHILDREN_DIFF_REPR,
-    HAS_CHILD_UPDATES,
-    IS_ADDED,
-    IS_CHANGED,
-    IS_DELETED,
-    is_child,
+from gendiff.formatters.stylish import is_child
+from gendiff.key_states_constants import (
+    ADDED,
+    CHANGED_FROM,
+    CHANGED_TO,
+    REMOVED,
+    SUBTREE,
+    UPDATED,
 )
 
 
 def plain(  # noqa: WPS210 WPS231
-    inter_repr: Dict,
-    source1: Dict,
-    source2: Dict,
+    diffs_tree: Dict,
     path_to_value: str = '',
 ):
     """Format internal representation of diffs to plain string.
 
     Args:
-        inter_repr: registered result of compare between two files
-        source1: file content
-        source2: file content
+        diffs_tree: registered result of compare between two files
         path_to_value: path by keys to value in dictionary
 
     Returns:
         representation of diffs to plain string
     """
     diffs = []
-    for key, state in inter_repr.items():
-        sub_path_to_value = '{0}.{1}'.format(
-            path_to_value,
-            str(key),
+    for key, node in diffs_tree.items():
+        node_value = _render_as_string(node.get('value'))
+        node_state = node.get('state')
+        sub_path_to_value = '{root}.{key}'.format(
+            root=path_to_value,
+            key=str(key),
         ) if path_to_value else str(key)
-        source_value = _render_as_string(source1.get(key))
-        new_value = _render_as_string(source2.get(key))
-        if state.get(HAS_CHILD_UPDATES):
-            diff = plain(
-                state[CHILDREN_DIFF_REPR],
-                source1[key],
-                source2[key],
-                sub_path_to_value,
+        if node_state == SUBTREE:
+            diffs.append(
+                plain(
+                    node['children_diff'],
+                    sub_path_to_value,
+                ),
             )
-            diffs.append(diff)
-        elif state.get(IS_CHANGED):
-            diff = "Property '{0}' was updated. From {1} to {2}".format(
-                sub_path_to_value,
-                source_value,
-                new_value,
+        elif node_state == UPDATED:
+            diffs.append(
+                "Property '{0}' was updated. From {1} to {2}".format(
+                    sub_path_to_value,
+                    _render_as_string(node['value'][CHANGED_FROM]),
+                    _render_as_string(node['value'][CHANGED_TO]),
+                ),
             )
-            diffs.append(diff)
-        elif state.get(IS_DELETED):
-            diff = "Property '{0}' was removed".format(sub_path_to_value)
-            diffs.append(diff)
-        elif state.get(IS_ADDED):
-            diff = "Property '{0}' was added with value: {1}".format(
-                sub_path_to_value,
-                new_value,
+
+        elif node_state == REMOVED:
+            diffs.append("Property '{0}' was removed".format(sub_path_to_value))
+        elif node_state == ADDED:
+            diffs.append(
+                "Property '{0}' was added with value: {1}".format(
+                    sub_path_to_value,
+                    node_value,
+                ),
             )
-            diffs.append(diff)
     return '\n'.join(diffs)
 
 
