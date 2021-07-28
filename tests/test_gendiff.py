@@ -1,8 +1,6 @@
 """Tests module."""
-from gendiff.formatters.json_formatter import format_to_json
-from gendiff.formatters.plain import plain
 from gendiff.scripts.gendiff import generate_diff
-from gendiff.shell_parser import FORMATTERS, create_parser
+from gendiff.shell_parser import create_parser
 
 
 def test_json_flat(
