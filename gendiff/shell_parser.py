@@ -1,7 +1,16 @@
 """Shell parser module."""
 from argparse import ArgumentParser
 
-from gendiff.scripts.gendiff import FORMATTERS
+from gendiff.formatters.json_formatter import format_to_json
+from gendiff.formatters.plain import plain
+from gendiff.formatters.stylish import stylish
+from gendiff.key_states_constants import VERSION
+
+FORMATTERS = {  # noqa: WPS407
+    'stylish': stylish,
+    'plain': plain,
+    'json': format_to_json,
+}
 
 
 def create_parser() -> ArgumentParser:
@@ -11,18 +20,20 @@ def create_parser() -> ArgumentParser:
         Returns the parser instance
     """
     parser = ArgumentParser()
-    parser.add_argument('first_file', help='')
-    parser.add_argument('second_file', help='')
+    parser.add_argument('first_file', help='path to JSON or YAML file')
+    parser.add_argument('second_file', help='path to JSON or YAML file')
     parser.add_argument(
         '-f',
         '--format',
         choices=FORMATTERS.keys(),
         default='stylish',
-        help='set format of output (stylish by default)',
+        help='set format of output',
     )
-    # parser.add_argument(
-    #     '-v', '--version',
-    #     action='version',
-    #     version='%(prog)s 0.10.2',
-    # )
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version='{prog} {version}'.format(prog=parser.prog, version=VERSION),
+        help='print version info',
+    )
     return parser
