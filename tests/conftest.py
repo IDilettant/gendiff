@@ -342,3 +342,118 @@ Property 'group1.baz' was updated. From 'bas' to 'bars'
 Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]"""
+
+
+@pytest.fixture
+def json_diff_result() -> str:
+    """Two json-files with nested structure diff result.
+
+    Returns:
+        json of two json-files diff result
+    """
+    return """{
+    "common": {
+        "state": "subtree",
+        "children_diff": {
+            "follow": {
+                "state": "added",
+                "value": false
+            },
+            "setting1": {
+                "state": "unchanged",
+                "value": "Value 1"
+            },
+            "setting2": {
+                "state": "removed",
+                "value": 200
+            },
+            "setting3": {
+                "state": "updated",
+                "value": {
+                    "changed from": true,
+                    "changed to": null
+                }
+            },
+            "setting4": {
+                "state": "added",
+                "value": "blah blah"
+            },
+            "setting5": {
+                "state": "added",
+                "value": {
+                    "key5": "value5"
+                }
+            },
+            "setting6": {
+                "state": "subtree",
+                "children_diff": {
+                    "doge": {
+                        "state": "subtree",
+                        "children_diff": {
+                            "wow": {
+                                "state": "updated",
+                                "value": {
+                                    "changed from": "",
+                                    "changed to": "so much"
+                                }
+                            }
+                        }
+                    },
+                    "key": {
+                        "state": "unchanged",
+                        "value": "value"
+                    },
+                    "ops": {
+                        "state": "added",
+                        "value": "vops"
+                    }
+                }
+            }
+        }
+    },
+    "group1": {
+        "state": "subtree",
+        "children_diff": {
+            "baz": {
+                "state": "updated",
+                "value": {
+                    "changed from": "bas",
+                    "changed to": "bars"
+                }
+            },
+            "foo": {
+                "state": "unchanged",
+                "value": "bar"
+            },
+            "nest": {
+                "state": "updated",
+                "value": {
+                    "changed from": {
+                        "key": "value"
+                    },
+                    "changed to": "str"
+                }
+            }
+        }
+    },
+    "group2": {
+        "state": "removed",
+        "value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    },
+    "group3": {
+        "state": "added",
+        "value": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        }
+    }
+}"""
