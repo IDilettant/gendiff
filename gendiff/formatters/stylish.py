@@ -46,7 +46,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
             )
         elif node_state == UPDATED:
             diffs.append(
-                '{indent}  - {key}:{value}'.format(
+                '{indent}  - {key}: {value}'.format(
                     indent=indent,
                     key=key,
                     value=_render_to_string(
@@ -56,7 +56,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
                 ),
             )
             diffs.append(
-                '{indent}  + {key}:{value}'.format(
+                '{indent}  + {key}: {value}'.format(
                     indent=indent,
                     key=key,
                     value=_render_to_string(
@@ -67,7 +67,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
             )
         elif node_state == UNCHANGED:
             diffs.append(
-                '{indent}    {key}:{value}'.format(
+                '{indent}    {key}: {value}'.format(
                     indent=indent,
                     key=key,
                     value=node_value,
@@ -75,7 +75,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
             )
         elif node_state == REMOVED:
             diffs.append(
-                '{indent}  - {key}:{value}'.format(
+                '{indent}  - {key}: {value}'.format(
                     indent=indent,
                     key=key,
                     value=node_value,
@@ -83,7 +83,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
             )
         elif node_state == ADDED:
             diffs.append(
-                '{indent}  + {key}:{value}'.format(
+                '{indent}  + {key}: {value}'.format(
                     indent=indent,
                     key=key,
                     value=node_value,
@@ -121,18 +121,18 @@ def _render_to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
         lines = []
         for key, node_value in arg.items():
             node_value = _render_to_string(node_value, depth + 1)
-            line = '{indent}    {key}:{value}'.format(
+            line = '{indent}    {key}: {value}'.format(
                 indent=indent,
                 key=key,
                 value=node_value,
             )
             lines.append(line)
-        return ' {0}'.format(_format_to_dict_like(lines, indent))
+        return _format_to_dict_like(lines, indent)
     elif isinstance(arg, bool) or arg is None:
-        return ' {0}'.format(json.dumps(arg))
+        return json.dumps(arg)
     elif arg == '':
         return arg
-    return ' {0}'.format(str(arg))
+    return str(arg)
 
 
 def _format_to_dict_like(lines: List, indent: Optional[str] = None) -> str:
