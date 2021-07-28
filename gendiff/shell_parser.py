@@ -1,7 +1,7 @@
 """Shell parser module."""
 from argparse import ArgumentParser
 
-from gendiff.scripts.stylish import stylish
+from gendiff.scripts.gendiff import FORMATTERS
 
 
 def create_parser() -> ArgumentParser:
@@ -16,7 +16,13 @@ def create_parser() -> ArgumentParser:
     parser.add_argument(
         '-f',
         '--format',
-        default=stylish,
-        help='set format of output',
+        choices=FORMATTERS.keys(),
+        default='stylish',
+        help='set format of output (stylish by default)',
     )
+    # parser.add_argument(
+    #     '-v', '--version',
+    #     action='version',
+    #     version='%(prog)s 0.10.2',
+    # )
     return parser
