@@ -15,7 +15,7 @@ from gendiff.key_states_constants import (
     UNCHANGED,
     UPDATED,
 )
-from gendiff.shell_parser import FORMATTERS
+from gendiff.shell_parser import FORMATS
 
 
 def generate_diff(
@@ -38,7 +38,7 @@ def generate_diff(
     source_file_data = parse_file_content(source_file_path)
     updated_file_data = parse_file_content(updated_file_path)
     diffs_tree = get_diffs_tree(source_file_data, updated_file_data)
-    return FORMATTERS[formatter](diffs_tree)
+    return FORMATS[formatter](diffs_tree)
 
 
 def parse_file_content(file_path: str) -> Dict:

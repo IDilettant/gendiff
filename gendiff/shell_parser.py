@@ -6,7 +6,7 @@ from gendiff.formatters.plain import plain
 from gendiff.formatters.stylish import stylish
 from gendiff.key_states_constants import VERSION
 
-FORMATTERS = {  # noqa: WPS407
+FORMATS = {  # noqa: WPS407
     'stylish': stylish,
     'plain': plain,
     'json': format_to_json,
@@ -25,7 +25,7 @@ def create_parser() -> ArgumentParser:
     parser.add_argument(
         '-f',
         '--format',
-        choices=FORMATTERS.keys(),
+        choices=FORMATS.keys(),
         default='stylish',
         help='set format of output',
     )
