@@ -1,6 +1,6 @@
 """Stylish formatter module."""
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from gendiff.key_states_constants import (
     ADDED,
@@ -135,6 +135,6 @@ def _render_to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     return str(arg)
 
 
-def _format_to_dict_like(lines: List, indent: Optional[str] = None) -> str:
+def _format_to_dict_like(lines: List, indent: str = '') -> str:
     lines = '\n'.join(lines)
     return '{0}\n{1}\n{2}{3}'.format('{', lines, indent, '}')

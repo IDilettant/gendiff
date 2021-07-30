@@ -21,7 +21,7 @@ from gendiff.shell_parser import FORMATS
 def generate_diff(
     source_file_path: str,
     updated_file_path: str,
-    formatter='stylish',
+    formatter: str = 'stylish',
 ) -> str:
     """Find differences between two files.
 
@@ -102,5 +102,9 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
     return diffs_tree
 
 
-def _has_subtree(source_file_data: Dict, updated_file_data: Dict, key: Any):
+def _has_subtree(
+    source_file_data: Dict,
+    updated_file_data: Dict,
+    key: Any,
+) -> bool:
     return is_child(source_file_data.get(key)) and is_child(updated_file_data.get(key))  # noqa: E501

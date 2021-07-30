@@ -16,7 +16,7 @@ from gendiff.key_states_constants import (
 def plain(  # noqa: WPS210 WPS231
     diffs_tree: Dict,
     path_to_value: str = '',
-):
+) -> str:
     """Format internal representation of diffs to plain string.
 
     Args:
