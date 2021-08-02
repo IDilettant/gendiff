@@ -1,6 +1,6 @@
 """Tests module."""
+from gendiff.cli import create_parser
 from gendiff.scripts.gendiff import generate_diff
-from gendiff.shell_parser import create_parser
 
 
 def test_json_flat(

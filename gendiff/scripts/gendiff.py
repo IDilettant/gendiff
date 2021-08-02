@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Main script module."""
+from gendiff.cli import create_parser
 from gendiff.differ import generate_diff
-from gendiff.shell_parser import create_parser
 
 
 def main():
