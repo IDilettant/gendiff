@@ -4,13 +4,13 @@ from argparse import ArgumentParser
 from gendiff.formatters.json_formatter import format_to_json
 from gendiff.formatters.plain import plain
 from gendiff.formatters.stylish import stylish
-from gendiff.key_states_constants import VERSION
 
 FORMATS = {  # noqa: WPS407
     'stylish': stylish,
     'plain': plain,
     'json': format_to_json,
 }
+VERSION = '0.5.0'
 
 
 def create_parser() -> ArgumentParser:
