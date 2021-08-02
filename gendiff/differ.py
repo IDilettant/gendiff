@@ -1,11 +1,9 @@
 """Find differences between two json or yaml files."""
-import json
 from collections import defaultdict
-from os import path
 from typing import Any, Dict
 
-import yaml
-from gendiff.formatters.stylish import is_child
+from gendiff.cli import FORMATS
+from gendiff.content_parser import extract_file_content
 from gendiff.key_states_constants import (
     ADDED,
     CHANGED_FROM,
@@ -15,7 +13,6 @@ from gendiff.key_states_constants import (
     UNCHANGED,
     UPDATED,
 )
-from gendiff.shell_parser import FORMATS
 
 
 def generate_diff(
@@ -35,29 +32,10 @@ def generate_diff(
     Returns:
         Diffs in dictionary like format
     """
-    source_file_data = parse_file_content(source_file_path)
-    updated_file_data = parse_file_content(updated_file_path)
+    source_file_data = extract_file_content(source_file_path)
+    updated_file_data = extract_file_content(updated_file_path)
     diffs_tree = get_diffs_tree(source_file_data, updated_file_data)
     return FORMATS[formatter](diffs_tree)
-
-
-def parse_file_content(file_path: str) -> Dict:
-    """Convert content from JSON or YAML file.
-
-    Args:
-        file_path: path to file
-
-    Returns:
-        dictionary
-    """
-    _, extension = path.splitext(file_path)
-    json_ext = '.json'
-    yaml_ext = ('.yaml', '.yml')
-    with open(file_path, 'r') as file_content:
-        if extension == json_ext:
-            return json.load(file_content)
-        elif extension in yaml_ext:
-            return yaml.safe_load(file_content)
 
 
 def get_diffs_tree(  # noqa: WPS210 WPS231 C901
@@ -89,7 +67,7 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
                 state=UNCHANGED,
                 value=source_value,
             )
-        elif _has_subtree(source_file_data, updated_file_data, key):
+        elif _has_subtree_diff(source_value, new_value):
             diffs_tree[key].update(
                 state=SUBTREE,
                 children_diff=get_diffs_tree(source_value, new_value),
@@ -102,9 +80,8 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
     return diffs_tree
 
 
-def _has_subtree(
-    source_file_data: Dict,
-    updated_file_data: Dict,
-    key: Any,
+def _has_subtree_diff(
+    source_value: Any,
+    new_value: Any,
 ) -> bool:
-    return is_child(source_file_data.get(key)) and is_child(updated_file_data.get(key))  # noqa: E501
+    return isinstance(source_value, dict) and isinstance(new_value, dict)
