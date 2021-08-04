@@ -2,7 +2,7 @@
 import json
 from typing import Any, Dict, List
 
-from gendiff.key_states_constants import (
+from gendiff.constants import (
     ADDED,
     CHANGED_FROM,
     CHANGED_TO,

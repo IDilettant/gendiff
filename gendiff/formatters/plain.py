@@ -2,8 +2,7 @@
 import json
 from typing import Any, Dict
 
-from gendiff.formatters.stylish import is_child
-from gendiff.key_states_constants import (
+from gendiff.constants import (
     ADDED,
     CHANGED_FROM,
     CHANGED_TO,
@@ -11,6 +10,7 @@ from gendiff.key_states_constants import (
     SUBTREE,
     UPDATED,
 )
+from gendiff.formatters.stylish import is_child
 
 
 def plain(  # noqa: WPS210 WPS231
