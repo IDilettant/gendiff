@@ -1,7 +1,7 @@
 """Shell parser module."""
 from argparse import ArgumentParser
 
-from gendiff.formatters.json_formatter import format_to_json
+from gendiff.formatters.json import format_to_json
 from gendiff.formatters.plain import plain
 from gendiff.formatters.stylish import stylish
 
