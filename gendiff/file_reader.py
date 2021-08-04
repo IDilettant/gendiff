@@ -1,7 +1,7 @@
 """Content parser module."""
 import json
 from os import path
-from typing import Dict, TextIO
+from typing import Dict
 
 import yaml
 
@@ -20,19 +20,19 @@ def read_file(file_path: str):
     return _parse_file_content(file_content, extension)
 
 
-def _parse_file_content(file_content: TextIO, extension: str) -> Dict:
+def _parse_file_content(file_content: str, extension: str) -> Dict:
     json_ext = '.json'
     yaml_ext = ('.yaml', '.yml')
     if extension == json_ext:
-        return json.load(file_content)
+        return json.loads(file_content)
     elif extension in yaml_ext:
         return yaml.safe_load(file_content)
 
 
-def _extract_file_content(file_path: str) -> TextIO:
+def _extract_file_content(file_path: str) -> str:
     file_path = path.abspath(file_path)
     with open(file_path, 'r') as file_content:
-        return file_content
+        return file_content.read()
 
 
 def _get_extension(file_path):

@@ -3,8 +3,7 @@ from collections import defaultdict
 from typing import Any, Dict
 
 from gendiff.cli import FORMATS
-from gendiff.content_parser import extract_file_content
-from gendiff.key_states_constants import (
+from gendiff.constants import (
     ADDED,
     CHANGED_FROM,
     CHANGED_TO,
@@ -13,6 +12,7 @@ from gendiff.key_states_constants import (
     UNCHANGED,
     UPDATED,
 )
+from gendiff.file_reader import read_file
 
 
 def generate_diff(
@@ -32,8 +32,8 @@ def generate_diff(
     Returns:
         Diffs in dictionary like format
     """
-    source_file_data = extract_file_content(source_file_path)
-    updated_file_data = extract_file_content(updated_file_path)
+    source_file_data = read_file(source_file_path)
+    updated_file_data = read_file(updated_file_path)
     diffs_tree = get_diffs_tree(source_file_data, updated_file_data)
     return FORMATS[formatter](diffs_tree)
 
