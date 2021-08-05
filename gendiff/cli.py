@@ -4,13 +4,14 @@ from argparse import ArgumentParser
 from gendiff.formatters.json import format_to_json
 from gendiff.formatters.plain import plain
 from gendiff.formatters.stylish import stylish
+from pkg_resources import get_distribution
 
 FORMATS = {  # noqa: WPS407
     'stylish': stylish,
     'plain': plain,
     'json': format_to_json,
 }
-VERSION = '0.5.0'
+VERSION = get_distribution('hexlet-code').version
 
 
 def create_parser() -> ArgumentParser:
