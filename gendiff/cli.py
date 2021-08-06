@@ -1,17 +1,8 @@
 """Shell parser module."""
 from argparse import ArgumentParser
 
-from gendiff.formatters.json import format_to_json
-from gendiff.formatters.plain import plain
-from gendiff.formatters.stylish import stylish
+from gendiff.formatters.formats import FORMATS
 from pkg_resources import get_distribution
-
-FORMATS = {  # noqa: WPS407
-    'stylish': stylish,
-    'plain': plain,
-    'json': format_to_json,
-}
-VERSION = get_distribution('hexlet-code').version
 
 
 def create_parser() -> ArgumentParser:
@@ -21,6 +12,7 @@ def create_parser() -> ArgumentParser:
         Returns the parser instance
     """
     parser = ArgumentParser()
+    version = get_distribution('hexlet-code').version
     parser.add_argument('first_file', help='path to JSON or YAML file')
     parser.add_argument('second_file', help='path to JSON or YAML file')
     parser.add_argument(
@@ -34,7 +26,7 @@ def create_parser() -> ArgumentParser:
         '-v',
         '--version',
         action='version',
-        version='{prog} {version}'.format(prog=parser.prog, version=VERSION),
+        version='{prog} {version}'.format(prog=parser.prog, version=version),
         help='print version info',
     )
     return parser

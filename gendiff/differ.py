@@ -2,7 +2,6 @@
 from collections import defaultdict
 from typing import Any, Dict
 
-from gendiff.cli import FORMATS
 from gendiff.constants import (
     ADDED,
     CHANGED_FROM,
@@ -13,6 +12,7 @@ from gendiff.constants import (
     UPDATED,
 )
 from gendiff.file_reader import read_file
+from gendiff.formatters.formats import FORMATS
 
 
 def generate_diff(
