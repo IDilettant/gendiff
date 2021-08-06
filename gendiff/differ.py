@@ -16,8 +16,8 @@ from gendiff.formatters.formats import FORMATS
 
 
 def generate_diff(
-    source_file_path: str,
-    updated_file_path: str,
+    first_file_path: str,
+    second_file_path: str,
     formatter: str = 'stylish',
 ) -> str:
     """Find differences between two files.
@@ -25,39 +25,39 @@ def generate_diff(
     Perform result of search as string in dictionary like format
 
     Args:
-        source_file_path: path to file
-        updated_file_path: path to file
+        first_file_path: path to file
+        second_file_path: path to file
         formatter: function for format to dictionary-like string
 
     Returns:
         Diffs in dictionary like format
     """
-    source_file_data = read_file(source_file_path)
-    updated_file_data = read_file(updated_file_path)
-    diffs_tree = get_diffs_tree(source_file_data, updated_file_data)
+    first_file_data = read_file(first_file_path)
+    second_file_data = read_file(second_file_path)
+    diffs_tree = get_diffs_tree(first_file_data, second_file_data)
     return FORMATS[formatter](diffs_tree)
 
 
 def get_diffs_tree(  # noqa: WPS210 WPS231 C901
-    source_file_data: Dict,
-    updated_file_data: Dict,
+    first_file_data: Dict,
+    second_file_data: Dict,
 ) -> Dict:
     """Get internal representation of differences between two dictionaries.
 
     Args:
-        source_file_data: file content
-        updated_file_data: file content
+        first_file_data: file content
+        second_file_data: file content
 
     Returns:
         registered result of compare between two files
     """
-    only_first = set(source_file_data) - set(updated_file_data)
-    only_second = set(updated_file_data) - set(source_file_data)
-    common_keys = sorted(source_file_data.keys() | updated_file_data.keys())
+    only_first = set(first_file_data) - set(second_file_data)
+    only_second = set(second_file_data) - set(first_file_data)
+    common_keys = sorted(first_file_data.keys() | second_file_data.keys())
     diffs_tree = defaultdict(dict)
     for key in common_keys:
-        source_value = source_file_data.get(key)
-        new_value = updated_file_data.get(key)
+        source_value = first_file_data.get(key)
+        new_value = second_file_data.get(key)
         if key in only_first:  # noqa: WPS223
             diffs_tree[key].update(state=REMOVED, value=source_value)  # noqa: WPS204 E501
         elif key in only_second:
