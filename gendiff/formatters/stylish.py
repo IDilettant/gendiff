@@ -31,7 +31,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
     diffs = []
     indent = INDENT * depth
     for key, node in diffs_tree.items():
-        node_value = _render_to_string(node.get('value'), depth + 1)
+        node_value = _to_string(node.get('value'), depth + 1)
         node_state = node.get('state')
         if node_state == SUBTREE:  # noqa: WPS223
             diffs.append(
@@ -49,7 +49,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
                 '{indent}  - {key}: {value}'.format(
                     indent=indent,
                     key=key,
-                    value=_render_to_string(
+                    value=_to_string(
                         node['value'][CHANGED_FROM],
                         depth + 1,
                     ),
@@ -59,7 +59,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
                 '{indent}  + {key}: {value}'.format(
                     indent=indent,
                     key=key,
-                    value=_render_to_string(
+                    value=_to_string(
                         node['value'][CHANGED_TO],
                         depth + 1,
                     ),
@@ -104,7 +104,7 @@ def is_child(key_value: Any) -> bool:
     return isinstance(key_value, dict)
 
 
-def _render_to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
+def _to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     """Render as string representation.
 
     If argument is dictionary or list render in dictionary-like format.
@@ -120,7 +120,7 @@ def _render_to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     if is_child(arg):
         lines = []
         for key, node_value in arg.items():
-            node_value = _render_to_string(node_value, depth + 1)
+            node_value = _to_string(node_value, depth + 1)
             line = '{indent}    {key}: {value}'.format(
                 indent=indent,
                 key=key,
