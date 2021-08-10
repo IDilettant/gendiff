@@ -51,8 +51,8 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
     Returns:
         registered result of compare between two files
     """
-    only_first = set(first_file_data) - set(second_file_data)
-    only_second = set(second_file_data) - set(first_file_data)
+    only_first = first_file_data.keys() - second_file_data.keys()
+    only_second = second_file_data.keys() - first_file_data.keys()
     common_keys = sorted(first_file_data.keys() | second_file_data.keys())
     diffs_tree = defaultdict(dict)
     for key in common_keys:
