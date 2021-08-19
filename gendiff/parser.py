@@ -5,7 +5,10 @@ from typing import Dict
 import yaml
 
 
-def parse_file_content(file_content: str, extension: str) -> Dict:  # type: ignore
+def parse_file_content(  # type: ignore
+    file_content: str,
+    extension: str,
+) -> Dict:
     """Parse content from JSON or YAML file.
 
     Args:

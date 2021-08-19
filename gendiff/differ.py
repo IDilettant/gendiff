@@ -70,7 +70,7 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
         elif _has_subtree_diff(source_value, new_value):
             diffs_tree[key].update(
                 state=SUBTREE,
-                children_diff=get_diffs_tree(source_value, new_value),  # type: ignore
+                children_diff=get_diffs_tree(source_value, new_value),  # type: ignore  # noqa: E501
             )
         elif source_value != new_value:
             diffs_tree[key].update(
