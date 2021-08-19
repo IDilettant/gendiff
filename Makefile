@@ -25,5 +25,8 @@ test-coverage:
 pre-commit:
 	poetry run pre-commit run --all-files
 
+mypy-check:
+	poetry run mypy --namespace-packages tests gendiff
+
 
 .PHONY: gendiff
