@@ -24,3 +24,13 @@ jobs:
       - name: Run Flake8-WPS
         run: |
           make lint
+      - name: Run mypy-check
+        run: |
+          make mypy-check
+      - name: Test & publish code coverage
+        run: |
+          make test-coverage
+          - name: Test & publish code coverage
+            uses: paambaati/codeclimate-action@v2.7.5
+            env:
+              CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
