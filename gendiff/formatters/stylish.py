@@ -136,5 +136,5 @@ def _to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
 
 
 def _format_to_dict_like(lines: List, indent: str = '') -> str:
-    lines = '\n'.join(lines)
-    return '{0}\n{1}\n{2}{3}'.format('{', lines, indent, '}')
+    text_lines = '\n'.join(lines)
+    return '{0}\n{1}\n{2}{3}'.format('{', text_lines, indent, '}')

@@ -35,7 +35,7 @@ def generate_diff(
     first_file_data = read_file(first_file_path)
     second_file_data = read_file(second_file_path)
     diffs_tree = get_diffs_tree(first_file_data, second_file_data)
-    return FORMATS[formatter](diffs_tree)
+    return FORMATS[formatter](diffs_tree)  # type: ignore
 
 
 def get_diffs_tree(  # noqa: WPS210 WPS231 C901
@@ -54,7 +54,7 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
     only_first = first_file_data.keys() - second_file_data.keys()
     only_second = second_file_data.keys() - first_file_data.keys()
     common_keys = sorted(first_file_data.keys() | second_file_data.keys())
-    diffs_tree = defaultdict(dict)
+    diffs_tree: Dict = defaultdict(dict)
     for key in common_keys:
         source_value = first_file_data.get(key)
         new_value = second_file_data.get(key)
@@ -70,7 +70,7 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
         elif _has_subtree_diff(source_value, new_value):
             diffs_tree[key].update(
                 state=SUBTREE,
-                children_diff=get_diffs_tree(source_value, new_value),
+                children_diff=get_diffs_tree(source_value, new_value),  # type: ignore
             )
         elif source_value != new_value:
             diffs_tree[key].update(
