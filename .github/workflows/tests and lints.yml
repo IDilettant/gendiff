@@ -1,5 +1,5 @@
 
-name: Flake8-WPS
+name: tests and lints
 
 on:
   - push
@@ -28,9 +28,9 @@ jobs:
         run: |
           make mypy-check
       - name: Test & publish code coverage
-        run: |
-          make test-coverage
-          - name: Test & publish code coverage
-            uses: paambaati/codeclimate-action@v2.7.5
-            env:
-              CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageCommand: make test-coverage
+          debug: true

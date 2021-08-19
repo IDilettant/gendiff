@@ -2,7 +2,7 @@
 [![Actions Status](https://github.com/IDilettant/python-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/IDilettant/python-project-lvl2/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7ca7a58ae374ae5ab91b/maintainability)](https://codeclimate.com/github/IDilettant/python-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7ca7a58ae374ae5ab91b/test_coverage)](https://codeclimate.com/github/IDilettant/python-project-lvl2/test_coverage)
-![Actions Status](https://github.com/IDilettant/python-project-lvl2/workflows/Flake8-WPS/badge.svg)
+![Actions Status](https://github.com/IDilettant/python-project-lvl2/workflows/tests%20and%20lints/badge.svg)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
 
