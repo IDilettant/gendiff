@@ -1,10 +1,9 @@
 """Shell parser module."""
 from argparse import ArgumentParser
 
+from gendiff.differ import BASE_FORMAT
 from gendiff.formatters.formats import FORMATS
 from pkg_resources import get_distribution
-
-BASE_FORMAT = 'stylish'
 
 
 def create_parser() -> ArgumentParser:

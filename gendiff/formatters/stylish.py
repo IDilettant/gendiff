@@ -3,7 +3,7 @@ import json
 from typing import Any, Dict, List
 
 from gendiff.diff_sorter import sort_with_abc_order
-from gendiff.differ import (
+from gendiff.inter_repr import (
     ADDED,
     CHANGED_FROM,
     CHANGED_TO,
