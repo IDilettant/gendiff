@@ -1,5 +1,4 @@
 """Stylish formatter module."""
-import json
 from typing import Any, Dict, List
 
 from gendiff.diff_sorter import sort_with_abc_order
@@ -14,6 +13,9 @@ from gendiff.inter_repr import (
 )
 
 INDENT = ' ' * 4
+BOOL_TRUE = 'true'
+BOOL_FALSE = 'false'
+NONE = 'null'
 
 
 def stylish(  # noqa: WPS210 WPS231 C901
@@ -105,11 +107,10 @@ def _to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     Returns:
         dictionary-like format representation
     """
-    indent = INDENT * depth
     if isinstance(arg, dict):
         return _format_child(arg, depth)
     elif isinstance(arg, bool) or arg is None:
-        return json.dumps(arg)
+        return _format_special_values(arg)
     elif arg == '':
         return arg
     return str(arg)
@@ -127,6 +128,15 @@ def _format_child(node: Dict, depth: int = 0):
         )
         lines.append(line)
     return _format_to_dict_like(lines, indent)
+
+
+def _format_special_values(arg):
+    if arg is True:
+        return BOOL_TRUE
+    elif arg is False:
+        return BOOL_FALSE
+    elif arg is None:
+        return NONE
 
 
 def _format_to_dict_like(lines: List, indent: str = '') -> str:
