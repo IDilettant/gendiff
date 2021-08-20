@@ -93,18 +93,6 @@ def stylish(  # noqa: WPS210 WPS231 C901
     return _format_to_dict_like(diffs, indent)
 
 
-def is_child(key_value: Any) -> bool:
-    """Find out if an element is a child in a dictionary tree structure.
-
-    Args:
-        key_value: value of dictionary key
-
-    Returns:
-        bool
-    """
-    return isinstance(key_value, dict)
-
-
 def _to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     """Render as string representation.
 
@@ -118,22 +106,27 @@ def _to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
         dictionary-like format representation
     """
     indent = INDENT * depth
-    if is_child(arg):
-        lines = []
-        for key, node_value in arg.items():
-            node_value = _to_string(node_value, depth + 1)
-            line = '{indent}    {key}: {value}'.format(
-                indent=indent,
-                key=key,
-                value=node_value,
-            )
-            lines.append(line)
-        return _format_to_dict_like(lines, indent)
+    if isinstance(arg, dict):
+        return _format_child(arg, depth)
     elif isinstance(arg, bool) or arg is None:
         return json.dumps(arg)
     elif arg == '':
         return arg
     return str(arg)
+
+
+def _format_child(node: Dict, depth: int = 0):
+    lines = []
+    indent = INDENT * depth
+    for key, node_value in node.items():
+        node_value = _to_string(node_value, depth + 1)
+        line = '{indent}    {key}: {value}'.format(
+            indent=indent,
+            key=key,
+            value=node_value,
+        )
+        lines.append(line)
+    return _format_to_dict_like(lines, indent)
 
 
 def _format_to_dict_like(lines: List, indent: str = '') -> str:

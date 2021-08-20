@@ -11,7 +11,6 @@ from gendiff.differ import (
     SUBTREE,
     UPDATED,
 )
-from gendiff.formatters.stylish import is_child
 
 
 def plain(  # noqa: WPS210 WPS231
@@ -75,7 +74,7 @@ def _render_as_string(arg: Any) -> str:
         string for plain format representation
     """
     if any([  # noqa: WPS337
-        is_child(arg),
+        isinstance(arg, dict),
         isinstance(arg, list),
         isinstance(arg, tuple),
         isinstance(arg, set),

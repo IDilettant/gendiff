@@ -3,7 +3,7 @@ from collections import defaultdict
 from typing import Any, Dict
 
 from gendiff.file_reader import read_file
-from gendiff.formatters.formats import FORMATS
+import gendiff.formatters.formats as formats
 
 UPDATED = 'updated'
 CHANGED_FROM = 'changed from'
@@ -35,7 +35,7 @@ def generate_diff(
     first_file_data = read_file(first_file_path)
     second_file_data = read_file(second_file_path)
     diffs_tree = get_diffs_tree(first_file_data, second_file_data)
-    return FORMATS[formatter](diffs_tree)  # type: ignore
+    return formats.FORMATS[formatter](diffs_tree)  # type: ignore
 
 
 def get_diffs_tree(  # noqa: WPS210 WPS231 C901
