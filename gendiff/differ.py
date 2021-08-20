@@ -53,16 +53,18 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
     """
     only_first = first_file_data.keys() - second_file_data.keys()
     only_second = second_file_data.keys() - first_file_data.keys()
-    common_keys = sorted(first_file_data.keys() | second_file_data.keys())
+    common_keys = first_file_data.keys() & second_file_data.keys()
     diffs_tree: Dict = defaultdict(dict)
+    for key in only_first:
+        source_value = first_file_data[key]
+        diffs_tree[key].update(state=REMOVED, value=source_value)  # noqa: WPS204 E501
+    for key in only_second:
+        new_value = second_file_data[key]
+        diffs_tree[key].update(state=ADDED, value=new_value)
     for key in common_keys:
-        source_value = first_file_data.get(key)
-        new_value = second_file_data.get(key)
-        if key in only_first:  # noqa: WPS223
-            diffs_tree[key].update(state=REMOVED, value=source_value)  # noqa: WPS204 E501
-        elif key in only_second:
-            diffs_tree[key].update(state=ADDED, value=new_value)
-        elif source_value == new_value:
+        source_value = first_file_data[key]
+        new_value = second_file_data[key]
+        if source_value == new_value:
             diffs_tree[key].update(
                 state=UNCHANGED,
                 value=source_value,
