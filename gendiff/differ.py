@@ -2,17 +2,17 @@
 from collections import defaultdict
 from typing import Any, Dict
 
-from gendiff.constants import (
-    ADDED,
-    CHANGED_FROM,
-    CHANGED_TO,
-    REMOVED,
-    SUBTREE,
-    UNCHANGED,
-    UPDATED,
-)
 from gendiff.file_reader import read_file
 from gendiff.formatters.formats import FORMATS
+
+UPDATED = 'updated'
+CHANGED_FROM = 'changed from'
+CHANGED_TO = 'changed to'
+UNCHANGED = 'unchanged'
+REMOVED = 'removed'
+ADDED = 'added'
+SUBTREE = 'subtree'
+CHILDREN_DIFF = 'children_diff'
 
 
 def generate_diff(
@@ -58,10 +58,10 @@ def get_diffs_tree(  # noqa: WPS210 WPS231 C901
     for key in only_first:
         source_value = first_file_data[key]
         diffs_tree[key].update(state=REMOVED, value=source_value)  # noqa: WPS204 E501
-    for key in only_second:
+    for key in only_second:  # noqa: WPS440
         new_value = second_file_data[key]
         diffs_tree[key].update(state=ADDED, value=new_value)
-    for key in common_keys:
+    for key in common_keys:  # noqa: WPS440
         source_value = first_file_data[key]
         new_value = second_file_data[key]
         if source_value == new_value:

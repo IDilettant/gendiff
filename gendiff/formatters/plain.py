@@ -1,10 +1,9 @@
 """Plain formatter module."""
-from collections import OrderedDict
-
 import json
 from typing import Any, Dict
 
-from gendiff.constants import (
+from gendiff.diff_sorter import sort_with_abc_order
+from gendiff.differ import (
     ADDED,
     CHANGED_FROM,
     CHANGED_TO,
@@ -12,7 +11,6 @@ from gendiff.constants import (
     SUBTREE,
     UPDATED,
 )
-from gendiff.diff_sorter import sort_with_abc_order
 from gendiff.formatters.stylish import is_child
 
 
