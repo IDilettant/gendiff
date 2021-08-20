@@ -11,6 +11,7 @@ from gendiff.constants import (
     UNCHANGED,
     UPDATED,
 )
+from gendiff.diff_sorter import sort_with_abc_order
 
 INDENT = ' ' * 4
 
@@ -30,7 +31,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
     """
     diffs = []
     indent = INDENT * depth
-    for key, node in diffs_tree.items():
+    for key, node in sort_with_abc_order(diffs_tree).items():
         node_value = _to_string(node.get('value'), depth + 1)
         node_state = node.get('state')
         if node_state == SUBTREE:  # noqa: WPS223

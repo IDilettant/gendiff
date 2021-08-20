@@ -1,4 +1,6 @@
 """Plain formatter module."""
+from collections import OrderedDict
+
 import json
 from typing import Any, Dict
 
@@ -10,6 +12,7 @@ from gendiff.constants import (
     SUBTREE,
     UPDATED,
 )
+from gendiff.diff_sorter import sort_with_abc_order
 from gendiff.formatters.stylish import is_child
 
 
@@ -27,7 +30,7 @@ def plain(  # noqa: WPS210 WPS231
         representation of diffs to plain string
     """
     diffs = []
-    for key, node in diffs_tree.items():
+    for key, node in sort_with_abc_order(diffs_tree).items():
         node_value = _render_as_string(node.get('value'))
         node_state = node.get('state')
         sub_path_to_value = '{path}.{key}'.format(
