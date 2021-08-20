@@ -17,6 +17,9 @@ def parse_file_content(  # type: ignore
 
     Returns:
         converted content
+
+    Raises:
+        ValueError: if extension is unexpected
     """
     json_ext = '.json'
     yaml_ext = ('.yaml', '.yml')
@@ -25,3 +28,6 @@ def parse_file_content(  # type: ignore
         return json.loads(file_content)
     elif extension in yaml_ext:
         return yaml.safe_load(file_content)
+    raise ValueError(
+        'Unexpected file extension: {0}. Expect JSON or YAML'.format(extension),
+    )
