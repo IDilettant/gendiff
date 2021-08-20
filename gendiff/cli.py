@@ -4,6 +4,8 @@ from argparse import ArgumentParser
 from gendiff.formatters.formats import FORMATS
 from pkg_resources import get_distribution
 
+BASE_FORMAT = 'stylish'
+
 
 def create_parser() -> ArgumentParser:
     """Create a parser instance able to parse args of script.
@@ -19,7 +21,7 @@ def create_parser() -> ArgumentParser:
         '-f',
         '--format',
         choices=FORMATS.keys(),
-        default='stylish',
+        default=BASE_FORMAT,
         help='set format of output',
     )
     parser.add_argument(
