@@ -24,6 +24,11 @@ repos:
         entry: poetry run flake8 gendiff
         language: system
         types: [python]
+    -   id: mypy
+        name: mypy
+        entry: make mypy-check
+        language: system
+        types: [ python ]
 -   repo: https://github.com/asottile/add-trailing-comma
     rev: v2.1.0
     hooks:
@@ -32,8 +37,3 @@ repos:
     rev: 5.7.0
     hooks:
       - id: isort
--   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.910
-    hooks:
-    -   id: mypy
-        args: [--namespace-packages]
