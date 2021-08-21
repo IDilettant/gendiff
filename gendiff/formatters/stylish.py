@@ -1,7 +1,6 @@
 """Stylish formatter module."""
 from typing import Any, Dict, List
 
-from gendiff.diff_sorter import sort_with_abc_order
 from gendiff.inter_repr import (
     ADDED,
     CHANGED_FROM,
@@ -33,7 +32,7 @@ def stylish(  # noqa: WPS210 WPS231 C901
     """
     diffs = []
     indent = INDENT * depth
-    for key, node in sort_with_abc_order(diffs_tree).items():
+    for key, node in sorted(diffs_tree.items()):
         node_value = _to_string(node.get('value'), depth + 1)
         node_state = node.get('state')
         if node_state == SUBTREE:  # noqa: WPS223
@@ -109,10 +108,12 @@ def _to_string(arg: Any, depth: int = 0) -> str:  # noqa: WPS231
     """
     if isinstance(arg, dict):
         return _format_child(arg, depth)
-    elif isinstance(arg, bool) or arg is None:
-        return _format_special_values(arg)
-    elif arg == '':
-        return arg
+    elif arg is True:
+        return BOOL_TRUE
+    elif arg is False:
+        return BOOL_FALSE
+    elif arg is None:
+        return NONE
     return str(arg)
 
 
@@ -128,15 +129,6 @@ def _format_child(node: Dict, depth: int = 0):
         )
         lines.append(line)
     return _format_to_dict_like(lines, indent)
-
-
-def _format_special_values(arg):
-    if arg is True:
-        return BOOL_TRUE
-    elif arg is False:
-        return BOOL_FALSE
-    elif arg is None:
-        return NONE
 
 
 def _format_to_dict_like(lines: List, indent: str = '') -> str:

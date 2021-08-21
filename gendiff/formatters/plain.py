@@ -1,8 +1,6 @@
 """Plain formatter module."""
-import json
 from typing import Any, Dict
 
-from gendiff.diff_sorter import sort_with_abc_order
 from gendiff.inter_repr import (
     ADDED,
     CHANGED_FROM,
@@ -11,6 +9,10 @@ from gendiff.inter_repr import (
     SUBTREE,
     UPDATED,
 )
+
+BOOL_TRUE = 'true'
+BOOL_FALSE = 'false'
+NONE = 'null'
 
 
 def plain(  # noqa: WPS210 WPS231
@@ -27,7 +29,7 @@ def plain(  # noqa: WPS210 WPS231
         representation of diffs to plain string
     """
     diffs = []
-    for key, node in sort_with_abc_order(diffs_tree).items():
+    for key, node in sorted(diffs_tree.items()):
         node_value = _render_as_string(node.get('value'))
         node_state = node.get('state')
         sub_path_to_value = '{path}.{key}'.format(
@@ -80,8 +82,10 @@ def _render_as_string(arg: Any) -> str:
         isinstance(arg, set),
     ]):
         return '[complex value]'
-    elif isinstance(arg, bool) or arg is None:
-        return json.dumps(arg)
-    elif isinstance(arg, (int, float)):
-        return str(arg)
+    elif arg is True:
+        return BOOL_TRUE
+    elif arg is False:
+        return BOOL_FALSE
+    elif arg is None:
+        return NONE
     return "'{0}'".format(str(arg))

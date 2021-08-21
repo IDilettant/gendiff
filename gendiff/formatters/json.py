@@ -2,8 +2,6 @@
 import json
 from typing import Dict
 
-from gendiff.diff_sorter import sort_with_abc_order
-
 
 def format_to_json(
     diffs_tree: Dict,
@@ -16,5 +14,4 @@ def format_to_json(
     Returns:
         representation of diffs in json-format
     """
-    sorted_diffs_tree = sort_with_abc_order(diffs_tree)
-    return json.dumps(sorted_diffs_tree, indent=4)
+    return json.dumps(diffs_tree, indent=4)
