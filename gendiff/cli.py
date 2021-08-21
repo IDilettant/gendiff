@@ -1,7 +1,7 @@
 """Shell parser module."""
 from argparse import ArgumentParser
 
-from gendiff.differ import BASE_FORMAT
+from gendiff.differ import DEFAULT_FORMAT
 from gendiff.formatters.formats import FORMATS
 from pkg_resources import get_distribution
 
@@ -20,7 +20,7 @@ def create_parser() -> ArgumentParser:
         '-f',
         '--format',
         choices=FORMATS.keys(),
-        default=BASE_FORMAT,
+        default=DEFAULT_FORMAT,
         help='set format of output',
     )
     parser.add_argument(

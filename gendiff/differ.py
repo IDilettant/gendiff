@@ -2,16 +2,16 @@
 
 
 from gendiff.file_reader import read_file
-from gendiff.formatters.formats import FORMATS
+from gendiff.formatters.formats import FORMATS, STYLISH
 from gendiff.inter_repr import get_diffs_tree
 
-BASE_FORMAT = 'stylish'
+DEFAULT_FORMAT = STYLISH
 
 
 def generate_diff(
     first_file_path: str,
     second_file_path: str,
-    formatter: str = BASE_FORMAT,
+    formatter: str = DEFAULT_FORMAT,
 ) -> str:
     """Find differences between two files.
 
