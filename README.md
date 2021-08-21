@@ -6,20 +6,39 @@
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
 
+## Description
+
 The program is a cli-utility that allows to compare between JSON and/or YAML files.
 And display the resulting difference in various presentation options
 
 This is the second project implemented for educational purposes in the learning process on [the Hexlet](https://ru.hexlet.io) platform
 
 
-Demo for plain structure files:
+## Quickstart
+```bash
+pip install git+https://github.com/IDilettant/python-project-lvl2.git
+```
+
+
+## Running
+```bash
+gendiff -f <format> <file1> <file2>
+```
+Where ```<file1>``` and ```<file2>``` is filepaths.
+
+Available output formats: "stylish", "plain", "json"
+
+
+## Demos
+
+#### Stylish-style formatter for plain structure files:
 [![asciicast](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa.svg)](https://asciinema.org/a/fRr3HiS9NoFo0m45bayVNVvaa)
 
-Demo for nested structure files:
+#### Stylish-style formatter for nested structure files:
 [![asciicast](https://asciinema.org/a/1J2DoAfr6nR1iwtf32DiCXm92.svg)](https://asciinema.org/a/1J2DoAfr6nR1iwtf32DiCXm92)
 
-Demo for plain-style formatter:
+#### Plain-style formatter:
 [![asciicast](https://asciinema.org/a/EBGsvQsuRz6xGrh86ttu0AnOc.svg)](https://asciinema.org/a/EBGsvQsuRz6xGrh86ttu0AnOc)
 
-Demo for json-style formatter:
+#### Json-style formatter:
 [![asciicast](https://asciinema.org/a/jXEOqNH5UBtEMt2niAFQAzguF.svg)](https://asciinema.org/a/jXEOqNH5UBtEMt2niAFQAzguF)
