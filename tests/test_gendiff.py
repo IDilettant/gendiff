@@ -1,4 +1,5 @@
 """Tests module."""
+import json
 
 from gendiff.cli import create_parser
 from gendiff.scripts.gendiff import generate_diff
@@ -91,10 +92,13 @@ def test_plain_repr(
 def test_format_to_json(
     first_file_nested_json: str,
     second_file_nested_yaml: str,
-    json_diff_result: str,
 ):
-    assert generate_diff(
-        first_file_nested_json,
-        second_file_nested_yaml,
-        formatter='json',
-    ) == json_diff_result
+    try:
+        json.loads(generate_diff(
+            first_file_nested_json,
+            second_file_nested_yaml,
+            formatter='json',
+        ))
+        assert True
+    except json.JSONDecodeError:
+        assert False
