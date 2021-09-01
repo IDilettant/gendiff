@@ -66,7 +66,7 @@ def plain(  # noqa: WPS210 WPS231
     return '\n'.join(diffs)
 
 
-def _render_as_string(arg: Any) -> str:
+def _render_as_string(arg: Any) -> str:  # noqa: WPS212
     """Render as string representation.
 
     Args:
@@ -75,17 +75,14 @@ def _render_as_string(arg: Any) -> str:
     Returns:
         string for plain format representation
     """
-    if any([  # noqa: WPS337
-        isinstance(arg, dict),
-        isinstance(arg, list),
-        isinstance(arg, tuple),
-        isinstance(arg, set),
-    ]):
+    if isinstance(arg, (dict, list, tuple, set)):
         return '[complex value]'
-    elif arg is True:
+    if arg is True:
         return BOOL_TRUE
-    elif arg is False:
+    if arg is False:
         return BOOL_FALSE
-    elif arg is None:
+    if arg is None:
         return NONE
+    if isinstance(arg, (int, float)):
+        return '{0}'.format(str(arg))
     return "'{0}'".format(str(arg))

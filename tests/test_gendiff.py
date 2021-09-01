@@ -10,44 +10,50 @@ from gendiff.formatters.formats import JSON, PLAIN, STYLISH
     'first_filepath, second_filepath, diff_result, formatter',
     [
         (
-            'fixtures/first_file_flat.json',
-            'fixtures/second_file_flat.json',
-            'fixtures/flat_diff_result.txt',
+            'tests/fixtures/first_file_flat.json',
+            'tests/fixtures/second_file_flat.json',
+            'tests/fixtures/flat_diff_result',
             STYLISH,
         ),
         (
-            'fixtures/first_file_flat.yml',
-            'fixtures/second_file_flat.yaml',
-            'fixtures/flat_diff_result.txt',
+            'tests/fixtures/first_file_flat.yml',
+            'tests/fixtures/second_file_flat.yaml',
+            'tests/fixtures/flat_diff_result',
             STYLISH,
         ),
         (
-            'fixtures/first_file_nested.json',
-            'fixtures/second_file_nested.json',
-            'fixtures/nested_diff_result.txt',
+            'tests/fixtures/first_file_nested.json',
+            'tests/fixtures/second_file_nested.json',
+            'tests/fixtures/nested_diff_result',
             STYLISH,
         ),
         (
-            'fixtures/first_file_nested.yml',
-            'fixtures/second_file_nested.yml',
-            'fixtures/nested_diff_result.txt',
+            'tests/fixtures/first_file_nested.yml',
+            'tests/fixtures/second_file_nested.yml',
+            'tests/fixtures/nested_diff_result',
             STYLISH,
         ),
         (
-            'fixtures/first_file_nested.json',
-            'fixtures/second_file_nested.yml',
-            'fixtures/nested_diff_result.txt',
+            'tests/fixtures/first_file_nested.json',
+            'tests/fixtures/second_file_nested.yml',
+            'tests/fixtures/nested_diff_result',
             STYLISH,
         ),
         (
-            'fixtures/first_file_nested.json',
-            'fixtures/second_file_nested.json',
-            'fixtures/plain_diff_result.txt',
+            'tests/fixtures/first_file_nested.json',
+            'tests/fixtures/second_file_nested.json',
+            'tests/fixtures/plain_diff_result',
+            PLAIN,
+        ),
+        (
+            'tests/fixtures/hexlet_check_file1.json',
+            'tests/fixtures/hexlet_check_file2.json',
+            'tests/fixtures/hexlet_check_result_plain',
             PLAIN,
         ),
     ],
 )
-def test_gendiff(first_filepath, second_filepath, diff_result, formatter):
+def test_gendiff(first_filepath: str, second_filepath: str, diff_result: str, formatter: str):
     with open(diff_result) as diff:
         assert generate_diff(
             first_filepath,
@@ -60,8 +66,8 @@ def test_format_to_json():
     try:
         assert json.loads(
             generate_diff(
-                'fixtures/first_file_nested.json',
-                'fixtures/second_file_nested.yml',
+                'tests/fixtures/first_file_nested.json',
+                'tests/fixtures/second_file_nested.yml',
                 formatter=JSON,
             ),
         )
